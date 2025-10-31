@@ -3,19 +3,25 @@ import { displayWeather } from "./display.js";
 
 
 async function renderWeather(city) {
+    const spinner = document.querySelector("#loading-spinner");
     try {
+spinner.classList.remove("hidden");
 displayWeather("Loading...", "", "", "", "", "");
+await new Promise(resolve => setTimeout(resolve, 1000));
 const renderData = await getWeather(city)
 let {location, timezone, datetime, temperature, icon, conditions, feelslike, humidity, precipitation, windspeed} = renderData;
 displayWeather(location, timezone, datetime, temperature, icon, conditions, feelslike, humidity, precipitation, windspeed);
     }
     catch (err) {
         console.error("Ooops:", err);
+        displayWeather("Error Loading...", "", "", "", "", "");
+    } finally {
+        spinner.classList.add("hidden");
     }
 }
 
 async function controller() {
-let defaultCity = "Hamilton";
+let defaultCity = "Burlington";
 await renderWeather(defaultCity);
 
 

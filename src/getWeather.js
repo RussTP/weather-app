@@ -39,6 +39,7 @@ if (!data || (!data.currentConditions && !data.days)) {
 }
     catch (err) {
         console.error("Error in getWeather:", err);
+        throw err;
     }
     
 };
